@@ -59,7 +59,7 @@
                     </div>
                     <p class="py-6">Import the class</p>
                     <div class="mockup-code">
-                        <pre data-prefix="$" class="text-success" ><code>import { startWindToast } from "./../../packages/index.js";</code></pre>
+                        <pre data-prefix="$" class="text-success" ><code>import { startWindToast } from "@mariojgt/wind-notify/packages/index.js";</code></pre>
                     </div>
                     <p class="py-6">How to use the notify class</p>
                     <div class="mockup-code">
@@ -70,6 +70,7 @@
                         <pre data-prefix="$" class="text-gray-500" ><code>// position = top, bottom, right, left</code></pre>
                         <pre data-prefix="$" class="text-info" ><code>startWindToast(title, message, alertType, time, position)</code></pre>
                     </div>
+                    <p class="py-6">Notes: if using jit mode please add the packages/toasts/info.js file to the purge so you have the css classes</p>
                 </div>
             </div>
         </div>
