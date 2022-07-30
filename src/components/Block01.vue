@@ -55,7 +55,7 @@
                     <h1 class="text-5xl font-bold p-10">Get stared</h1>
                     <p class="py-6">Installation</p>
                     <div class="mockup-code">
-                        <pre data-prefix="$" class="text-warning" ><code>npm i daisyui</code></pre>
+                        <pre data-prefix="$" class="text-warning" ><code>npm i @mariojgt/wind-notify</code></pre>
                     </div>
                     <p class="py-6">Import the class</p>
                     <div class="mockup-code">
