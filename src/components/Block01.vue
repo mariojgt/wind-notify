@@ -38,7 +38,7 @@
                             <input type="text" placeholder="Display Time" class="input "
                                 v-model="displayTime" />
                         </div>
-                        <div class="preview border-base-300 bg-base-200 rounded-b-box rounded-tr-box flex min-h-[6rem] min-w-[18rem] max-w-4xl flex-wrap items-center justify-center gap-2 overflow-x-hidden border bg-cover bg-top p-4 undefined"
+                        <div class="preview pt-5 bg-base-200 rounded-b-box rounded-tr-box flex flex-wrap items-center justify-center gap-2 overflow-x-hidden border bg-cover bg-top p-10 undefined"
                             style="background-size: 5px 5px">
                             <button class="btn btn-success"
                                 @click="startWindToast('Success Example!', 'This is a success', 'success', displayTime, position);">success</button>

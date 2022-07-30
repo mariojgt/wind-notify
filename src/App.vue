@@ -1,10 +1,7 @@
 <template>
   <layout>
-    <!-- <navbar /> -->
-
     <!-- Block start here -->
     <block01 />
-
     <inputExample label="name" />
   </layout>
 </template>
