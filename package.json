@@ -38,5 +38,10 @@
   "bugs": {
     "url": "https://github.com/mariojgt/masterui/issues"
   },
-  "homepage": "https://github.com/mariojgt/masterui#readme"
+  "homepage": "https://github.com/mariojgt/masterui#readme",
+  "keywords": [
+    "tailwind",
+    "daisy",
+    "ui"
+  ]
 }
