@@ -2,22 +2,17 @@
     <div class="hero min-h-screen bg-base-200">
         <div class="hero-content w-full text-center">
             <div class="w-full">
-                <div class="avatar">
-                    <div class="w-24 rounded-full">
-                        <img src="https://raw.githubusercontent.com/mariojgt/mariojgt/main/mario_avatar.png" />
-                    </div>
-                </div>
-                <h1 class="text-5xl font-bold p-3">Wind-Notify</h1>
+                <figure><img src="https://raw.githubusercontent.com/mariojgt/wind-notify/main/art/logo_large.png" alt="Shoes" /></figure>
                 <p class="py-6">Wind-Notify provide a simple and easy way to display tailwind and daisy UI toast
-                    notification with almost 0 configuration, works using Vanilia js and basic inject the div that will
+                    notification with almost zero configuration, works using Vanilla js and basic inject the div that will
                     handle the toast all you need is to import and call ONE method.</p>
-                <div class="badge">Tailwind</div>
-                <div class="badge badge-primary">Daisy ui</div>
-                <div class="badge badge-secondary">Vanilia Js</div>
+                <div class="badge"><a target="_blank" href="https://tailwindcss.com/">Tailwind</a></div>
+                <div class="badge badge-primary"><a target="_blank" href="https://daisyui.com/">Daisy ui</a></div>
+                <div class="badge badge-secondary">Vanilla Js</div>
                 <div class="badge badge-outline">Light weight</div>
 
                 <div class="p-10">
-                    <h1 class="text-5xl font-bold">Examples</h1>
+                    <h1 class="text-5xl font-bold">Usage Example</h1>
 
                     <div class="p-10">
                         <div class="form-control ">
