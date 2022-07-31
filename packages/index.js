@@ -1,4 +1,4 @@
-import { info, error, success, warning } from "./toasts/info";
+import { info, error, success, warning } from "./toasts/messages";
 
 export const startWindToast = async (title, message, alertType, duration = 10, position = 'right') => {
     // Get the body element
@@ -13,8 +13,9 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
         // append the toasty element to the div
         body.appendChild(toasty);
     }
-    // Add the style to the toasty element so we can use it
+    // Add the style to the main toasty element so we can use it
     toastDefaultStyle(toasty, position);
+
     const toastyMessage = document.createElement("div");
     // Add padding class to the toasty message
     toastyMessage.className = "p-3 block transform transition-all duration-150 ease-out scale-0";
@@ -96,6 +97,13 @@ function toastsAnimation(element) {
     }, 200);
 }
 
+/**
+ * Move the progress bar once reached the end of the toasty remove the toasty
+ *
+ * @param mixed element
+ * @param mixed duration
+ *
+ */
 function moveProgressBar(element, duration) {
     const target = element;
     let   width  = 1;
@@ -120,6 +128,12 @@ function moveProgressBar(element, duration) {
     }
 }
 
+/**
+ * Used in the button when the user clicks the button to remove the toasty
+ *
+ * @param mixed element
+ *
+ */
 function removeWindToast(element) {
     const target = element.target;
     // Get target parent element
@@ -128,5 +142,5 @@ function removeWindToast(element) {
             .parentElement;
     parent.remove();
 }
-
+// Add to the window so we can use the function in the button
 window.removeWindToast = removeWindToast;
