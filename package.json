@@ -31,14 +31,14 @@
   "main": "postcss.config.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mariojgt/masterui.git"
+    "url": "git+https://github.com/mariojgt/wind-notify.git"
   },
   "author": "mariojgt",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mariojgt/masterui/issues"
+    "url": "https://github.com/mariojgt/wind-notify/issues"
   },
-  "homepage": "https://github.com/mariojgt/masterui#readme",
+  "homepage": "https://github.com/mariojgt/wind-notify#readme",
   "keywords": [
     "tailwind",
     "daisy",
