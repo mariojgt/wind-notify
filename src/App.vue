@@ -1,9 +1,8 @@
 <template>
-  <layout>
-    <!-- Block start here -->
-    <block01 />
-    <inputExample label="name" />
-  </layout>
+    <layout>
+        <!-- Block start here -->
+        <block01 />
+    </layout>
 </template>
 
 <script setup>
