@@ -19,6 +19,23 @@
                         </div>
                         <div class="badge badge-secondary">Vanilla Js</div>
                         <div class="badge badge-outline">Light weight</div>
+                        <br />
+                        <br />
+                        <div class="alert alert-warning shadow-lg ">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    class="stroke-black flex-shrink-0 w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>If you like my work, consider supporting.</span>
+                            </div>
+                            <div class="flex-none">
+                                <a href='https://ko-fi.com/D1D5EJZ3P' target='_blank'><img height='36'
+                                        style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi4.png?v=3'
+                                        border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
