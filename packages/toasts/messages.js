@@ -45,7 +45,7 @@ export function createToast(type, title, message) {
                 <div>
                     <h3 class="font-bold">${title}</h3>
                     <div class="text-lg">${message}</div>
-                    <div class="text-lg"><progress class="progress progress-secondary w-full" value="50" max="100"></progress></div>
+                    <div class="text-lg"><progress class="progress progress-primary w-full" value="50" max="100"></progress></div>
                 </div>
             </div>
         </div>

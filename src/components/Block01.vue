@@ -1,37 +1,40 @@
 <template>
     <div>
         <div class="w-full">
-            <div class="hero min-h-screen bg-base-200">
+            <div class="hero min-h-screen bg-base-300">
                 <div class="hero-content flex-col lg:flex-row">
-                    <img src="https://raw.githubusercontent.com/mariojgt/wind-notify/main/art/logo_large.png"
-                        class="max-w-sm rounded-lg shadow-2xl" />
-
-                    <div>
-                        <h1 class="text-5xl font-bold">Wind-Notify</h1>
-                        <p class="py-6">Wind-Notify provide a simple and easy way to display tailwind and
-                            daisy UI toast notification with almost zero configuration, works
-                            using Vanilla js and basic inject the div that will handle the toast
-                            all you need is to import and call ONE method.</p>
-                        <div class="badge">
-                            <a target="_blank" href="https://tailwindcss.com/">Tailwind</a>
-                        </div>
-                        <div class="badge badge-primary">
-                            <a target="_blank" href="https://daisyui.com/">Daisy ui</a>
-                        </div>
-                        <div class="badge badge-secondary">Vanilla Js</div>
-                        <div class="badge badge-outline">Light weight</div>
-                        <br />
-                        <br />
-                        <div class="alert alert-warning shadow-lg ">
-                            <div>
+                    <div class="card w-full bg-base-100 shadow-xl">
+                        <figure><img src="https://raw.githubusercontent.com/mariojgt/wind-notify/main/art/logo_large.png"
+                                alt="windy" /></figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Wind
+                                <div class="badge badge-secondary">Notify</div>
+                            </h2>
+                            <p>Wind-Notify provide a simple and easy way to display tailwind and
+                                daisy UI toast notification with almost zero configuration, works
+                                using Vanilla js and basic inject the div that will handle the toast
+                                all you need is to import and call ONE method.</p>
+                            <div class="card-actions justify-end">
+                                <div class="badge">
+                                    <a target="_blank" href="https://tailwindcss.com/">Tailwind</a>
+                                </div>
+                                <div class="badge badge-primary">
+                                    <a target="_blank" href="https://daisyui.com/">Daisy ui</a>
+                                </div>
+                                <div class="badge badge-secondary">Vanilla Js</div>
+                                <div class="badge badge-outline">Light weight</div>
+                            </div>
+                            <div class="alert alert-warning shadow-lg mt-10">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    class="stroke-black flex-shrink-0 w-6 h-6">
+                                    class="stroke-black shrink-0 w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span>If you like my work, consider supporting.</span>
-                            </div>
-                            <div class="flex-none">
+                                <div>
+                                    <h3 class="font-bold">New message!</h3>
+                                    <div class="text-xs">If you like my work, consider supporting.</div>
+                                </div>
                                 <a href='https://ko-fi.com/D1D5EJZ3P' target='_blank'><img height='36'
                                         style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi4.png?v=3'
                                         border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
@@ -149,7 +152,7 @@
                     <pre data-prefix="$"
                         class="text-info"><code>startWindToast(title, message, alertType, time, position)</code></pre>
                 </div>
-                <div class="bg-base-300 mt-10 card border" >
+                <div class="bg-base-300 mt-10 card border">
                     <div class="tabs m-3">
                         <a class="tab tab-lg tab-lifted tab-active">Notes</a>
                     </div>
