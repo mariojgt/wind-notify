@@ -3,23 +3,23 @@ import { info, error, success, warning } from "./toasts/messages";
 export const startWindToast = async (title, message, alertType, duration = 10, position = 'right') => {
     // Get the body element
     const body = document.querySelector("body");
-    // Find a element with the id 'wind-notify'
-    let toasty = document.getElementById("wind-notify");
-    if (!toasty) {
-        // Create the toasty element after the body
-        toasty = document.createElement("div");
-        // Add the div id to the toasty element
-        toasty.id = "wind-notify";
-        // append the toasty element to the div
-        body.appendChild(toasty);
+    // Find an element with the id 'wind-notify'
+    let toastyContainer = document.getElementById("wind-notify");
+    if (!toastyContainer) {
+        // Create the toastyContainer element after the body
+        toastyContainer = document.createElement("div");
+        // Add the div id to the toastyContainer element
+        toastyContainer.id = "wind-notify";
+        // append the toastyContainer element to the body
+        body.appendChild(toastyContainer);
     }
-    // Add the style to the main toasty element so we can use it
-    toastDefaultStyle(toasty, position);
+    // Add the style to the main toastyContainer element so we can use it
+    toastDefaultStyle(toastyContainer, position);
 
     const toastyMessage = document.createElement("div");
     // Add padding class to the toasty message
     toastyMessage.className = "p-3 block transform transition-all duration-150 ease-out scale-0";
-    toasty.appendChild(toastyMessage);
+    toastyContainer.appendChild(toastyMessage);
     // Start the toasty animation
     toastsAnimation(toastyMessage);
 
@@ -38,7 +38,7 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
             toastyMessage.innerHTML = warning(title, message);
             break;
     }
-    // Move the progress bar once reached the end of the toasty remove the toasty
+    // Move the progress bar once reached the end of the toasty, remove the toasty
     moveProgressBar(toastyMessage, duration);
 };
 
@@ -49,36 +49,46 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
  *
  * @return [type]
  */
-function toastDefaultStyle(element, position) {
-    // Add styles to the toasty element
-    element.style.position = "fixed";
-    element.style.zIndex = "999999";
-    // Reset the toasty element position
-    element.style.top = null;
-    element.style.left = null;
-    element.style.right = null;
-    element.style.bottom = null;
-    element.style.transform = null;
+function toastDefaultStyle(toastyContainer, position) {
+    // Set the fixed positioning and other styles
+    toastyContainer.style.position = 'fixed';
+    toastyContainer.style.zIndex = '10000'; // Ensure it's above most other elements
+    toastyContainer.style.width = '300px'; // Set a default width
 
-    // Align the object based on the position
-    if (position === "top") {
-        // Align on the middle of the screen
-        element.style.top = "0";
-        element.style.left = "50%";
-        element.style.transform = "translateX(-50%)";
-    } else if (position === "bottom") {
-        element.style.bottom = "0";
-        element.style.left = "50%";
-        element.style.transform = "translateX(-50%)";
-    } else if (position === "left") {
-        element.style.top = "0";
-        element.style.left = "0";
-        element.style.bottom = "0";
-    } else {
-        element.style.top = "0";
-        element.style.right = "0";
+    switch(position) {
+        case 'left':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.transform = 'translateY(-50%)';
+            toastyContainer.style.left = '1rem';
+            break;
+        case 'right':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.transform = 'translateY(-50%)';
+            toastyContainer.style.right = '1rem';
+            break;
+        case 'top':
+            toastyContainer.style.top = '1rem';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translateX(-50%)';
+            break;
+        case 'bottom':
+            toastyContainer.style.bottom = '1rem';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translateX(-50%)';
+            break;
+        case 'middle':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translate(-50%, -50%)';
+            break;
+        default:
+            toastyContainer.style.bottom = '1rem';
+            toastyContainer.style.right = '1rem';
+            break;
     }
-    element.style.margin = "0 auto";
+
+    toastyContainer.style.maxHeight = 'calc(100vh - 2rem)';
+    toastyContainer.style.overflowY = 'auto'; // Allow scrolling if there are too many toasts
 }
 
 /**
@@ -98,34 +108,37 @@ function toastsAnimation(element) {
 }
 
 /**
- * Move the progress bar once reached the end of the toasty remove the toasty
+ * Move the progress bar with a smoother ease-out progression.
+ * Once the progress bar reaches the end, remove the toast notification.
  *
- * @param mixed element
- * @param mixed duration
- *
+ * @param {HTMLElement} element - The toast container element.
+ * @param {number} duration - Duration in seconds for the toast to last.
  */
 function moveProgressBar(element, duration) {
-    const target = element;
-    let   width  = 1;
-    let   id     = setInterval(frame, duration);
-    function frame() {
-        if (width >= 100) {
-            clearInterval(id);
-            target.classList.add("scale-0");
+    const progressBar = element.querySelector(".progress");
+    if (!progressBar) return;
+
+    const totalFrames = duration * 60; // Assuming 60 frames per second
+    let frameCount = 0;
+
+    const increment = () => {
+        // Use ease-out progression
+        const progress = Math.min((frameCount / totalFrames) ** 0.5 * 100, 100);
+
+        progressBar.value = progress;
+
+        if (frameCount >= totalFrames) {
+            element.classList.add("scale-0");
             setTimeout(() => {
-                target.remove();
+                element.remove();
             }, 200);
         } else {
-            width++;
-            // get the progress bar element using the class
-            const progressBar = target.querySelector(".progress");
-            if (progressBar) {
-                progressBar.value = width;
-            } else {
-                clearInterval(id);
-            }
+            frameCount++;
+            requestAnimationFrame(increment);
         }
-    }
+    };
+
+    increment();
 }
 
 /**

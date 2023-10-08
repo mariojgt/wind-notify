@@ -1,6 +1,6 @@
 {
   "name": "@mariojgt/wind-notify",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,19 +13,19 @@
     "@inertiajs/inertia-vue3": "^0.6.0",
     "color-convert": "^2.0.1",
     "colors": "^1.4.0",
-    "daisyui": "^2.14.1",
+    "daisyui": "^3.9.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.1",
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^6.6.96",
+    "@vitejs/plugin-vue": "^4.4.0",
     "autoprefixer": "^10.4.4",
     "css-selector-tokenizer": "^0.8.0",
-    "lerna": "^4.0.0",
+    "lerna": "^7.3.0",
     "postcss": "^8.4.7",
     "tailwindcss": "^3.0.24",
-    "@mdi/js": "^6.6.96",
-    "@jamescoyle/vue-icon": "^0.1.2",
-    "vite": "^2.7.2"
+    "vite": "^4.4.11"
   },
   "description": "toast notification for tailwindcss and daisyui",
   "main": "postcss.config.js",

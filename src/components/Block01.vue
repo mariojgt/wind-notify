@@ -5,6 +5,7 @@
                 <div class="hero-content flex-col lg:flex-row">
                     <img src="https://raw.githubusercontent.com/mariojgt/wind-notify/main/art/logo_large.png"
                         class="max-w-sm rounded-lg shadow-2xl" />
+
                     <div>
                         <h1 class="text-5xl font-bold">Wind-Notify</h1>
                         <p class="py-6">Wind-Notify provide a simple and easy way to display tailwind and
@@ -54,14 +55,16 @@
                             <option value="bottom">Bottom</option>
                             <option value="right">Right</option>
                             <option value="left">Left</option>
+                            <option value="middle">Middle</option>
                         </select>
                         <label class="label">
                             <span class="label-text">Notification Display Time</span>
-                            <span class="label-text-alt">Must be in frames</span>
+                            <span class="label-text-alt">Must be in seconds</span>
                         </label>
                         <input type="text" placeholder="Display Time" class="input" v-model="displayTime" />
                     </div>
                     <div class="
+                    mt-5
             preview
             pt-5
             bg-base-200
@@ -84,7 +87,7 @@
                                 displayTime,
                                 position
                             )
-                        ">
+                            ">
                             success
                         </button>
                         <button class="btn btn-info" @click="
@@ -95,7 +98,7 @@
                                 displayTime,
                                 position
                             )
-                        ">
+                            ">
                             info
                         </button>
                         <button class="btn btn-error" @click="
@@ -106,7 +109,7 @@
                                 displayTime,
                                 position
                             )
-                        ">
+                            ">
                             error
                         </button>
                         <button class="btn btn-warning" @click="
@@ -117,7 +120,7 @@
                                 displayTime,
                                 position
                             )
-                        ">
+                            ">
                             warning
                         </button>
                     </div>
@@ -146,11 +149,11 @@
                     <pre data-prefix="$"
                         class="text-info"><code>startWindToast(title, message, alertType, time, position)</code></pre>
                 </div>
-                <div>
-                    <div class="indicator-item indicator-bottom">
-                        <button class="btn btn-error">Notes</button>
+                <div class="bg-base-300 mt-10 card border" >
+                    <div class="tabs m-3">
+                        <a class="tab tab-lg tab-lifted tab-active">Notes</a>
                     </div>
-                    <div class="card border">
+                    <div class="">
                         <div class="card-body">
                             <h2 class="card-title">JIT - Just In Time</h2>
                             <p>
@@ -175,13 +178,11 @@
                                 <pre data-prefix="13" class="text-success"><code>    },</code> </pre>
                                 <pre data-prefix="14" class="text-success"><code>    variants: {</code> </pre>
                                 <pre data-prefix="15" class="text-success"><code>        extend: {</code> </pre>
-                                <pre data-prefix="16"
-                                    class="text-success"><code>        textOpacity: ['dark']</code> </pre>
+                                <pre data-prefix="16" class="text-success"><code>        textOpacity: ['dark']</code> </pre>
                                 <pre data-prefix="17" class="text-success"><code>        }</code> </pre>
                                 <pre data-prefix="18" class="text-success"><code>    },</code> </pre>
                                 <pre data-prefix="19" class="text-success"><code>    plugins: [</code> </pre>
-                                <pre data-prefix="20"
-                                    class="text-success"><code>        require('daisyui'),</code> </pre>
+                                <pre data-prefix="20" class="text-success"><code>        require('daisyui'),</code> </pre>
                                 <pre data-prefix="21" class="text-success"><code>    ],</code> </pre>
                                 <pre data-prefix="22" class="text-success"><code>}</code> </pre>
                             </div>
