@@ -1,6 +1,6 @@
 import { info, error, success, warning } from "./toasts/messages";
 
-export const startWindToast = async (title, message, alertType, duration = 10, position = 'right') => {
+export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
     // Get the body element
     const body = document.querySelector("body");
     // Find an element with the id 'wind-notify'
@@ -14,7 +14,7 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
         body.appendChild(toastyContainer);
     }
     // Add the style to the main toastyContainer element so we can use it
-    toastDefaultStyle(toastyContainer, position);
+    toastDefaultStyle(toastyContainer, position, zIndex);
 
     const toastyMessage = document.createElement("div");
     // Add padding class to the toasty message
@@ -49,10 +49,10 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
  *
  * @return [type]
  */
-function toastDefaultStyle(toastyContainer, position) {
+function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
     // Set the fixed positioning and other styles
     toastyContainer.style.position = 'fixed';
-    toastyContainer.style.zIndex = '10000'; // Ensure it's above most other elements
+    toastyContainer.style.zIndex = zIndex;
     toastyContainer.style.width = '300px'; // Set a default width
 
     switch(position) {

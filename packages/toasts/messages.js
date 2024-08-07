@@ -33,9 +33,7 @@ export function createToast(type, title, message) {
         <div class="alert ${alertConfig.class} shadow-lg bg-base flex justify-between">
             <div class="w-full">
                 <div class="flex justify-between">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        ${alertConfig.icon}
-                    </svg>
+                    ${alertConfig.icon}
                     <button class="btn btn-circle btn-sm" onclick="window.removeWindToast(event)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
