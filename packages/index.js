@@ -3,13 +3,14 @@ import { info, error, success, warning } from "./toasts/messages";
 export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
     // Get the body element
     const body = document.querySelector("body");
+    const containerId = "wind-notify-" + position;
     // Find an element with the id 'wind-notify'
-    let toastyContainer = document.getElementById("wind-notify");
+    let toastyContainer = document.getElementById(containerId);
     if (!toastyContainer) {
         // Create the toastyContainer element after the body
         toastyContainer = document.createElement("div");
         // Add the div id to the toastyContainer element
-        toastyContainer.id = "wind-notify";
+        toastyContainer.id = containerId;
         // append the toastyContainer element to the body
         body.appendChild(toastyContainer);
     }
