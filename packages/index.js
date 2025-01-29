@@ -1,30 +1,27 @@
 import { info, error, success, warning } from "./toasts/messages";
 
 export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
-    // Get the body element
+    // Check for browser environment
+    if (typeof document === 'undefined') return;
+
     const body = document.querySelector("body");
     const containerId = "wind-notify-" + position;
-    // Find an element with the id 'wind-notify'
+
     let toastyContainer = document.getElementById(containerId);
     if (!toastyContainer) {
-        // Create the toastyContainer element after the body
         toastyContainer = document.createElement("div");
-        // Add the div id to the toastyContainer element
         toastyContainer.id = containerId;
-        // append the toastyContainer element to the body
         body.appendChild(toastyContainer);
     }
-    // Add the style to the main toastyContainer element so we can use it
+
     toastDefaultStyle(toastyContainer, position, zIndex);
 
     const toastyMessage = document.createElement("div");
-    // Add padding class to the toasty message
     toastyMessage.className = "p-3 block transform transition-all duration-150 ease-out scale-0";
     toastyContainer.appendChild(toastyMessage);
-    // Start the toasty animation
+
     toastsAnimation(toastyMessage);
 
-    // Add the html to the toasty element
     switch (alertType) {
         case 'info':
             toastyMessage.innerHTML = info(title, message);
@@ -39,24 +36,18 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
             toastyMessage.innerHTML = warning(title, message);
             break;
     }
-    // Move the progress bar once reached the end of the toasty, remove the toasty
+
     moveProgressBar(toastyMessage, duration);
 };
 
-/**
- * Add the default style to the main toasty element
- *
- * @param mixed element
- *
- * @return [type]
- */
 function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
-    // Set the fixed positioning and other styles
+    if (typeof document === 'undefined') return;
+
     toastyContainer.style.position = 'fixed';
     toastyContainer.style.zIndex = zIndex;
-    toastyContainer.style.width = '300px'; // Set a default width
+    toastyContainer.style.width = '300px';
 
-    switch(position) {
+    switch (position) {
         case 'left':
             toastyContainer.style.top = '50%';
             toastyContainer.style.transform = 'translateY(-50%)';
@@ -89,41 +80,28 @@ function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
     }
 
     toastyContainer.style.maxHeight = 'calc(100vh - 2rem)';
-    toastyContainer.style.overflowY = 'auto'; // Allow scrolling if there are too many toasts
+    toastyContainer.style.overflowY = 'auto';
 }
 
-/**
- * Animate the toasty message using tailwindcss animation classes
- *
- * @param mixed element
- *
- * @return [type]
- */
 function toastsAnimation(element) {
+    if (typeof window === 'undefined') return;
+
     setTimeout(() => {
-        // Remove class 'hidden' from the toasty element
         element.classList.remove("scale-0");
-        // Add class 'animate' to the toasty element
         element.classList.add("scale-100");
     }, 200);
 }
 
-/**
- * Move the progress bar with a smoother ease-out progression.
- * Once the progress bar reaches the end, remove the toast notification.
- *
- * @param {HTMLElement} element - The toast container element.
- * @param {number} duration - Duration in seconds for the toast to last.
- */
 function moveProgressBar(element, duration) {
+    if (typeof window === 'undefined') return;
+
     const progressBar = element.querySelector(".progress");
     if (!progressBar) return;
 
-    const totalFrames = duration * 60; // Assuming 60 frames per second
+    const totalFrames = duration * 60;
     let frameCount = 0;
 
     const increment = () => {
-        // Use ease-out progression
         const progress = Math.min((frameCount / totalFrames) ** 0.5 * 100, 100);
 
         progressBar.value = progress;
@@ -142,19 +120,14 @@ function moveProgressBar(element, duration) {
     increment();
 }
 
-/**
- * Used in the button when the user clicks the button to remove the toasty
- *
- * @param mixed element
- *
- */
 function removeWindToast(element) {
+    if (typeof document === 'undefined') return;
+
     const target = element.target;
-    // Get target parent element
-    const parent =
-        target.parentElement.parentElement.parentElement.parentElement
-            .parentElement;
-    parent.remove();
+    const parent = target.parentElement?.parentElement?.parentElement?.parentElement?.parentElement;
+    if (parent) parent.remove();
 }
-// Add to the window so we can use the function in the button
-window.removeWindToast = removeWindToast;
+
+if (typeof window !== 'undefined') {
+    window.removeWindToast = removeWindToast;
+}
