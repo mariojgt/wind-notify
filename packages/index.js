@@ -1,89 +1,160 @@
-// toast.js
-export const startWindToast = async (title, message, alertType, duration = 5, position = 'right', zIndex = 10000) => {
-    if (typeof document === 'undefined') return;
+import { info, error, success, warning } from "./toasts/messages";
 
+export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
+    // Get the body element
     const body = document.querySelector("body");
     const containerId = "wind-notify-" + position;
-
+    // Find an element with the id 'wind-notify'
     let toastyContainer = document.getElementById(containerId);
     if (!toastyContainer) {
+        // Create the toastyContainer element after the body
         toastyContainer = document.createElement("div");
+        // Add the div id to the toastyContainer element
         toastyContainer.id = containerId;
-        toastyContainer.style.position = 'fixed';
-        toastyContainer.style.zIndex = zIndex;
-        toastyContainer.style.display = 'flex';
-        toastyContainer.style.flexDirection = 'column';
-        toastyContainer.style.gap = '1rem';
-        toastyContainer.style.maxHeight = 'calc(100vh - 2rem)';
-        toastyContainer.style.overflowY = 'auto';
-        toastyContainer.style.width = '320px';
-        toastyContainer.style.padding = '1rem';
+        // append the toastyContainer element to the body
         body.appendChild(toastyContainer);
     }
+    // Add the style to the main toastyContainer element so we can use it
+    toastDefaultStyle(toastyContainer, position, zIndex);
 
-    // Position the container
-    const positions = {
-        'right': { right: '0', top: '0', bottom: '0' },
-        'left': { left: '0', top: '0', bottom: '0' },
-        'top': { top: '0', left: '50%', transform: 'translateX(-50%)' },
-        'bottom': { bottom: '0', left: '50%', transform: 'translateX(-50%)' },
-        'top-right': { top: '0', right: '0' },
-        'top-left': { top: '0', left: '0' },
-        'bottom-right': { bottom: '0', right: '0' },
-        'bottom-left': { bottom: '0', left: '0' }
-    };
+    const toastyMessage = document.createElement("div");
+    // Add padding class to the toasty message
+    toastyMessage.className = "p-3 block transform transition-all duration-150 ease-out scale-0";
+    toastyContainer.appendChild(toastyMessage);
+    // Start the toasty animation
+    toastsAnimation(toastyMessage);
 
-    Object.assign(toastyContainer.style, positions[position] || positions.right);
-
-    // Create and add the toast
-    const toastElement = document.createElement('div');
-    toastElement.innerHTML = createToast(alertType, title, message);
-    toastyContainer.appendChild(toastElement.firstElementChild);
-
-    // Animate in
-    requestAnimationFrame(() => {
-        const toast = toastElement.firstElementChild;
-        toast.style.opacity = '1';
-        toast.style.transform = 'translateX(0)';
-    });
-
-    // Progress bar animation
-    const progressBar = toastElement.querySelector('.progress');
-    if (progressBar) {
-        const startTime = performance.now();
-        const durationMs = duration * 1000;
-
-        function updateProgress(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = 100 - (elapsed / durationMs * 100);
-
-            if (progress <= 0) {
-                removeToast(toastElement.firstElementChild);
-            } else {
-                progressBar.style.width = `${progress}%`;
-                requestAnimationFrame(updateProgress);
-            }
-        }
-
-        requestAnimationFrame(updateProgress);
+    // Add the html to the toasty element
+    switch (alertType) {
+        case 'info':
+            toastyMessage.innerHTML = info(title, message);
+            break;
+        case 'error':
+            toastyMessage.innerHTML = error(title, message);
+            break;
+        case 'success':
+            toastyMessage.innerHTML = success(title, message);
+            break;
+        default:
+            toastyMessage.innerHTML = warning(title, message);
+            break;
     }
+    // Move the progress bar once reached the end of the toasty, remove the toasty
+    moveProgressBar(toastyMessage, duration);
 };
 
-function removeToast(toast) {
-    if (!toast) return;
+/**
+ * Add the default style to the main toasty element
+ *
+ * @param mixed element
+ *
+ * @return [type]
+ */
+function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
+    // Set the fixed positioning and other styles
+    toastyContainer.style.position = 'fixed';
+    toastyContainer.style.zIndex = zIndex;
+    toastyContainer.style.width = '300px'; // Set a default width
 
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
+    switch(position) {
+        case 'left':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.transform = 'translateY(-50%)';
+            toastyContainer.style.left = '1rem';
+            break;
+        case 'right':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.transform = 'translateY(-50%)';
+            toastyContainer.style.right = '1rem';
+            break;
+        case 'top':
+            toastyContainer.style.top = '1rem';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translateX(-50%)';
+            break;
+        case 'bottom':
+            toastyContainer.style.bottom = '1rem';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translateX(-50%)';
+            break;
+        case 'middle':
+            toastyContainer.style.top = '50%';
+            toastyContainer.style.left = '50%';
+            toastyContainer.style.transform = 'translate(-50%, -50%)';
+            break;
+        default:
+            toastyContainer.style.bottom = '1rem';
+            toastyContainer.style.right = '1rem';
+            break;
+    }
 
+    toastyContainer.style.maxHeight = 'calc(100vh - 2rem)';
+    toastyContainer.style.overflowY = 'auto'; // Allow scrolling if there are too many toasts
+}
+
+/**
+ * Animate the toasty message using tailwindcss animation classes
+ *
+ * @param mixed element
+ *
+ * @return [type]
+ */
+function toastsAnimation(element) {
     setTimeout(() => {
-        toast.remove();
-    }, 300);
+        // Remove class 'hidden' from the toasty element
+        element.classList.remove("scale-0");
+        // Add class 'animate' to the toasty element
+        element.classList.add("scale-100");
+    }, 200);
 }
 
-// Export the remove function for backward compatibility
-if (typeof window !== 'undefined') {
-    window.removeWindToast = (event) => {
-        const toast = event.target.closest('.toast-wrapper');
-        if (toast) removeToast(toast);
+/**
+ * Move the progress bar with a smoother ease-out progression.
+ * Once the progress bar reaches the end, remove the toast notification.
+ *
+ * @param {HTMLElement} element - The toast container element.
+ * @param {number} duration - Duration in seconds for the toast to last.
+ */
+function moveProgressBar(element, duration) {
+    const progressBar = element.querySelector(".progress");
+    if (!progressBar) return;
+
+    const totalFrames = duration * 60; // Assuming 60 frames per second
+    let frameCount = 0;
+
+    const increment = () => {
+        // Use ease-out progression
+        const progress = Math.min((frameCount / totalFrames) ** 0.5 * 100, 100);
+
+        progressBar.value = progress;
+
+        if (frameCount >= totalFrames) {
+            element.classList.add("scale-0");
+            setTimeout(() => {
+                element.remove();
+            }, 200);
+        } else {
+            frameCount++;
+            requestAnimationFrame(increment);
+        }
     };
+
+    increment();
 }
+
+/**
+ * Used in the button when the user clicks the button to remove the toasty
+ *
+ * @param mixed element
+ *
+ */
+function removeWindToast(element) {
+    const target = element.target;
+    // Get target parent element
+    const parent =
+        target.parentElement.parentElement.parentElement.parentElement
+            .parentElement;
+    parent.remove();
+}
+// Add to the window so we can use the function in the button
+window.removeWindToast = removeWindToast;
