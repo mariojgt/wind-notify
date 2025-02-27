@@ -1,6 +1,9 @@
 import { info, error, success, warning } from "./toasts/messages";
 
 export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') return;
+
     // Get the body element
     const body = document.querySelector("body");
     const containerId = "wind-notify-" + position;
@@ -156,5 +159,8 @@ function removeWindToast(element) {
             .parentElement;
     parent.remove();
 }
-// Add to the window so we can use the function in the button
-window.removeWindToast = removeWindToast;
+
+// Only add to window if we're in a browser environment
+if (typeof window !== 'undefined') {
+    window.removeWindToast = removeWindToast;
+}
