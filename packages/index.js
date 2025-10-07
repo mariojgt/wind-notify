@@ -1,8 +1,14 @@
 import { info, error, success, warning } from "./toasts/messages";
 
-export const startWindToast = async (title, message, alertType, duration = 10, position = 'right', zIndex = 10000) => {
-    // Check if we're in a browser environment
-    if (typeof window === 'undefined') return;
+export const startWindToast = async (title, message, alertType, options = {}) => {
+    const {
+        duration = 5,
+        position = 'top-end',
+        zIndex = 10000,
+        showIcon = false,
+        showProgress = false,
+        minimalist = true
+    } = options;
 
     // Get the body element
     const body = document.querySelector("body");
@@ -14,6 +20,8 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
         toastyContainer = document.createElement("div");
         // Add the div id to the toastyContainer element
         toastyContainer.id = containerId;
+        // Add DaisyUI toast classes
+        toastyContainer.className = `toast toast-${position}`;
         // append the toastyContainer element to the body
         body.appendChild(toastyContainer);
     }
@@ -21,29 +29,39 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
     toastDefaultStyle(toastyContainer, position, zIndex);
 
     const toastyMessage = document.createElement("div");
-    // Add padding class to the toasty message
-    toastyMessage.className = "p-3 block transform transition-all duration-150 ease-out scale-0";
+    // Add minimalist classes for smooth animation
+    toastyMessage.className = "opacity-0 transform translate-y-2 transition-all duration-300 ease-out";
     toastyContainer.appendChild(toastyMessage);
+
     // Start the toasty animation
     toastsAnimation(toastyMessage);
 
     // Add the html to the toasty element
+    const toastOptions = { showIcon, showProgress, minimalist };
     switch (alertType) {
         case 'info':
-            toastyMessage.innerHTML = info(title, message);
+            toastyMessage.innerHTML = info(title, message, toastOptions);
             break;
         case 'error':
-            toastyMessage.innerHTML = error(title, message);
+            toastyMessage.innerHTML = error(title, message, toastOptions);
             break;
         case 'success':
-            toastyMessage.innerHTML = success(title, message);
+            toastyMessage.innerHTML = success(title, message, toastOptions);
             break;
         default:
-            toastyMessage.innerHTML = warning(title, message);
+            toastyMessage.innerHTML = warning(title, message, toastOptions);
             break;
     }
-    // Move the progress bar once reached the end of the toasty, remove the toasty
-    moveProgressBar(toastyMessage, duration);
+
+    // Handle auto-removal and progress bar
+    if (showProgress) {
+        moveProgressBar(toastyMessage, duration);
+    } else {
+        // Simple auto-removal without progress bar
+        setTimeout(() => {
+            removeToast(toastyMessage);
+        }, duration * 1000);
+    }
 };
 
 /**
@@ -54,45 +72,17 @@ export const startWindToast = async (title, message, alertType, duration = 10, p
  * @return [type]
  */
 function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
-    // Set the fixed positioning and other styles
-    toastyContainer.style.position = 'fixed';
+    // Set z-index for proper layering
     toastyContainer.style.zIndex = zIndex;
-    toastyContainer.style.width = '300px'; // Set a default width
 
-    switch(position) {
-        case 'left':
-            toastyContainer.style.top = '50%';
-            toastyContainer.style.transform = 'translateY(-50%)';
-            toastyContainer.style.left = '1rem';
-            break;
-        case 'right':
-            toastyContainer.style.top = '50%';
-            toastyContainer.style.transform = 'translateY(-50%)';
-            toastyContainer.style.right = '1rem';
-            break;
-        case 'top':
-            toastyContainer.style.top = '1rem';
-            toastyContainer.style.left = '50%';
-            toastyContainer.style.transform = 'translateX(-50%)';
-            break;
-        case 'bottom':
-            toastyContainer.style.bottom = '1rem';
-            toastyContainer.style.left = '50%';
-            toastyContainer.style.transform = 'translateX(-50%)';
-            break;
-        case 'middle':
-            toastyContainer.style.top = '50%';
-            toastyContainer.style.left = '50%';
-            toastyContainer.style.transform = 'translate(-50%, -50%)';
-            break;
-        default:
-            toastyContainer.style.bottom = '1rem';
-            toastyContainer.style.right = '1rem';
-            break;
+    // DaisyUI toast classes handle most positioning, but we can add custom styles if needed
+    if (position === 'middle') {
+        toastyContainer.style.position = 'fixed';
+        toastyContainer.style.top = '50%';
+        toastyContainer.style.left = '50%';
+        toastyContainer.style.transform = 'translate(-50%, -50%)';
+        toastyContainer.className = 'toast';
     }
-
-    toastyContainer.style.maxHeight = 'calc(100vh - 2rem)';
-    toastyContainer.style.overflowY = 'auto'; // Allow scrolling if there are too many toasts
 }
 
 /**
@@ -104,11 +94,21 @@ function toastDefaultStyle(toastyContainer, position, zIndex = 10000) {
  */
 function toastsAnimation(element) {
     setTimeout(() => {
-        // Remove class 'hidden' from the toasty element
-        element.classList.remove("scale-0");
-        // Add class 'animate' to the toasty element
-        element.classList.add("scale-100");
-    }, 200);
+        // Smooth fade-in animation
+        element.classList.remove("opacity-0", "translate-y-2");
+        element.classList.add("opacity-100", "translate-y-0");
+    }, 100);
+}
+
+/**
+ * Remove toast with smooth animation
+ */
+function removeToast(element) {
+    element.classList.remove("opacity-100", "translate-y-0");
+    element.classList.add("opacity-0", "translate-y-2");
+    setTimeout(() => {
+        element.remove();
+    }, 300);
 }
 
 /**
@@ -153,14 +153,11 @@ function moveProgressBar(element, duration) {
  */
 function removeWindToast(element) {
     const target = element.target;
-    // Get target parent element
-    const parent =
-        target.parentElement.parentElement.parentElement.parentElement
-            .parentElement;
-    parent.remove();
+    // Find the closest toast container
+    const toastElement = target.closest('.opacity-100') || target.closest('[class*="opacity"]');
+    if (toastElement) {
+        removeToast(toastElement);
+    }
 }
-
-// Only add to window if we're in a browser environment
-if (typeof window !== 'undefined') {
-    window.removeWindToast = removeWindToast;
-}
+// Add to the window so we can use the function in the button
+window.removeWindToast = removeWindToast;
