@@ -159,5 +159,7 @@ function removeWindToast(element) {
         removeToast(toastElement);
     }
 }
-// Add to the window so we can use the function in the button
-window.removeWindToast = removeWindToast;
+// Add to the window so we can use the function in the button (only in browser environment)
+if (typeof window !== 'undefined') {
+    window.removeWindToast = removeWindToast;
+}
